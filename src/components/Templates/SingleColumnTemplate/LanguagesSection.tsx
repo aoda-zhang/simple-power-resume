@@ -53,10 +53,7 @@ export function LanguagesSection({
     <div className="text-slate-900" style={s.body}>
       {languages.map((lang, idx) => {
         const isMT = isMotherTongue(lang.level);
-        const readable = isMT ? lang.level : getProficiency(lang.level);
         const showComma = idx < languages.length - 1;
-        // "Fluent" has no CEFR code, so "Fluent (Fluent)" added nothing.
-        const showCode = !isMT && readable !== lang.level;
 
         return (
           <span key={lang.id}>
@@ -66,15 +63,15 @@ export function LanguagesSection({
               placeholder="Language"
               className="font-medium"
             />
-            <span> – </span>
+            <span> - </span>
             <EditableText
-              value={readable}
+              value={isMT ? lang.level : getProficiency(lang.level)}
               onChange={(v) => onUpdate(lang.id, { level: v })}
               placeholder="Proficiency"
             />
-            {showCode && (
+            {!isMT && (
               <>
-                <span> (</span>
+                <span>&nbsp;(</span>
                 <EditableText
                   value={lang.level}
                   onChange={(v) => onUpdate(lang.id, { level: v })}
@@ -84,7 +81,7 @@ export function LanguagesSection({
                 <span>)</span>
               </>
             )}
-            {showComma && <span>, </span>}
+            {showComma && <span>,&nbsp;&nbsp;</span>}
           </span>
         );
       })}

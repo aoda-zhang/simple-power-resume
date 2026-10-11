@@ -23,9 +23,7 @@ body,
 @media print {
   @page {
     size: A4;
-    /* Must match the horizontal padding in templateStyles.ts, otherwise the
-       PDF wraps text at different points than the on-screen preview. */
-    margin: 12mm 10mm;
+    margin: 16mm;
   }
 
   /* --- Reset layout constraints --- */
@@ -59,15 +57,12 @@ body,
     flex: none !important;
   }
 
-  /* --- Resume container: let content flow across pages ---
-     The width must match the printable area, not the fixed 210mm preview
-     width: 210mm of content inside a 210mm - 2*16mm page box gets clipped
-     on the right edge. */
+  /* --- Resume container: let content flow across pages --- */
   [data-resume-preview] {
     position: static !important;
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    min-width: 210mm !important;
     height: auto !important;
     min-height: 0 !important;
     margin: 0 !important;
@@ -79,7 +74,7 @@ body,
   }
 
   [data-resume-preview] > div {
-    width: 100% !important;
+    width: 210mm !important;
     min-height: 0 !important;
     height: auto !important;
     overflow: visible !important;
@@ -92,24 +87,17 @@ body,
     print-color-adjust: exact !important;
   }
 
-  /* --- Dated entries (Experience + Education) ---
-     Grids cannot be split across pages, so take the date column out of the
-     flow. Width/gap come from the same custom properties the screen layout
-     uses, otherwise the PDF drifts out of alignment with the preview. */
-  [data-resume-preview] [data-entry] {
+  [data-resume-preview] [data-exp-entry] {
     display: block !important;
     position: relative !important;
-    padding-left: calc(var(--resume-entry-col) + var(--resume-entry-gap)) !important;
-    break-inside: avoid;
+    padding-left: var(--exp-col, 170px) !important;
   }
 
-  [data-resume-preview] [data-entry-date] {
+  [data-resume-preview] [data-exp-date] {
     position: absolute !important;
     left: 0 !important;
     top: 0 !important;
-    width: var(--resume-entry-col) !important;
-    padding-right: 0 !important;
-    margin-right: 0 !important;
+    width: var(--exp-col, 170px) !important;
   }
 
   li,
@@ -117,14 +105,14 @@ body,
     break-inside: avoid;
   }
 
-  [data-resume-preview] [data-section-title] {
+  [data-resume-preview] section > [data-section-title] {
     break-inside: avoid;
     break-after: avoid;
   }
 
-  [data-resume-preview] [data-entry] h3,
-  [data-resume-preview] [data-entry] .font-semibold,
-  [data-resume-preview] [data-entry] .font-bold {
+  [data-resume-preview] [data-exp-entry] > div:first-child,
+  [data-resume-preview] [data-exp-entry] h3,
+  [data-resume-preview] [data-exp-entry] .font-bold {
     break-inside: avoid;
   }
 

@@ -1,10 +1,6 @@
 /**
  * Single-column layout: skills section with optional category grouping.
- *
- * Every category row lives in ONE grid so they share a single label track.
- * A per-row grid (or a hard-coded `6.5rem`) breaks as soon as a category name
- * is longer than the fixed width: the label wraps to two lines and the values
- * stop lining up. `fit-content()` sizes the track to the widest label instead.
+ * All category labels share one grid column sized to the widest label.
  */
 import { Fragment } from "react";
 import { SectionTitle } from "../shared/SectionRenderers";
@@ -41,29 +37,33 @@ export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
   });
 
   return (
-    <section className="mb-5">
+    <section className="mb-4">
       <SectionTitle
         label={tEditor.skills}
         sectionType="skills"
-        className={s.label}
+        className={`${s.label} !mb-2`}
         style={s.sectionTitle}
       />
 
+      {/*
+        One grid for every row, so all categories share a single label track.
+        Previously each row had its own grid with a hard-coded 6.5rem column:
+        a longer category ("DevOps & Infrastructure:") wrapped to two lines and
+        pushed its values out of line with the rows above it.
+      */}
       <div
-        className="grid items-start gap-y-1"
+        className="grid items-start gap-y-1.5"
         style={{
-          gridTemplateColumns: s.labelColumns,
-          columnGap: s.entryGap,
+          gridTemplateColumns: "max-content minmax(0, 1fr)",
+          columnGap: "0.5rem",
+          alignItems: "start",
         }}
       >
         {groupedEntries.map(({ cat, skills: categorySkills }) => {
-          const names = categorySkills
-            .map((sk) => sk.name)
-            .filter(Boolean)
-            .join(", ");
+          const names = categorySkills.map((sk) => sk.name).filter(Boolean).join(", ");
           return (
             <Fragment key={cat}>
-              <span className="font-semibold text-slate-900">{cat}:</span>
+              <span className="font-bold text-slate-900">{cat}:</span>
               <span className="min-w-0 text-slate-900" style={s.body}>
                 {names}
               </span>
@@ -71,16 +71,11 @@ export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
           );
         })}
 
-        {/* Skills without a category span the full width so they start at the
-            same left edge as the category labels. */}
         {ungrouped.length > 0 && (
           <>
             <span />
             <span className="min-w-0 text-slate-900" style={s.body}>
-              {ungrouped
-                .map((sk) => sk.name)
-                .filter(Boolean)
-                .join(", ")}
+              {ungrouped.map((sk) => sk.name).filter(Boolean).join(", ")}
             </span>
           </>
         )}

@@ -69,19 +69,23 @@ export function EditableText({
   // If asList=true, show as bullet list instead
   if (multiline && value) {
     if (asList) {
-      // Strip any bullet the author already typed so we never render "• •".
-      const lines = value
-        .split("\n")
-        .map((line) => line.replace(/^\s*[•\-*·▪◦‣●○]\s*/, "").trim())
-        .filter((line) => line.length > 0);
+      const lines = value.split("\n").filter((l) => l.trim());
       return (
         <ul
           onClick={() => setIsEditing(true)}
-          className={`${className} cursor-text list-disc space-y-1 pl-[1.15em] marker:text-slate-400`}
+          className={`${className} cursor-text`}
           style={style}
         >
           {lines.map((line, i) => (
-            <li key={i}>{line}</li>
+            <li key={i} className="text-slate-900">
+              <span
+                className="font-bold mr-1 inline-block"
+                style={{ fontSize: "20px", lineHeight: 1 }}
+              >
+                •
+              </span>
+              {line}
+            </li>
           ))}
         </ul>
       );
@@ -100,9 +104,9 @@ export function EditableText({
   return (
     <span
       onClick={() => setIsEditing(true)}
-      className={`${className} cursor-text transition-colors`}
+      className={`${className} cursor-text transition-all border-2 border-transparent`}
       style={style}
-      title="Click to edit"
+      title="ClickEdit"
     >
       {value || placeholder}
     </span>
@@ -114,14 +118,11 @@ export function EditableLabel({
   defaultLabel,
   className = "",
   style,
-  "data-section-title": isSectionTitle,
 }: {
   sectionType: string;
   defaultLabel: string;
   className?: string;
   style?: React.CSSProperties;
-  /** Marks the node for the print stylesheet (keep headings with content). */
-  "data-section-title"?: boolean;
 }) {
   const { sectionOrder, updateSectionLabel } = useResumeStore();
   const section = sectionOrder.find((s) => s.type === sectionType);
@@ -163,10 +164,9 @@ export function EditableLabel({
   return (
     <span
       onClick={() => setIsEditing(true)}
-      data-section-title={isSectionTitle ? "" : undefined}
-      className={`${className} cursor-text hover:bg-indigo-50 transition-colors`}
+      className={`${className} cursor-text hover:bg-indigo-50 hover:px-2 hover:py-1 hover:rounded transition-all`}
       style={style}
-      title="Click to edit"
+      title="ClickEditTitle"
     >
       {label}
     </span>
