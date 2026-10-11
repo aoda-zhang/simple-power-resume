@@ -50,7 +50,13 @@ export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
           return (
             <div
               key={cat}
-              className="grid grid-cols-[6.5rem_minmax(0,1fr)] items-start gap-x-2"
+              className="grid items-start"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "6.5rem minmax(0, 1fr)",
+                columnGap: "0.5rem",
+                alignItems: "start",
+              }}
             >
               <span className="font-bold text-slate-900">
                 {cat}:
