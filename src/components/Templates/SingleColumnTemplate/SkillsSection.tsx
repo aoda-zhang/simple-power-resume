@@ -40,7 +40,7 @@ export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
       <SectionTitle
         label={tEditor.skills}
         sectionType="skills"
-        className={s.label}
+        className={`${s.label} !mb-2`}
         style={s.sectionTitle}
       />
 
