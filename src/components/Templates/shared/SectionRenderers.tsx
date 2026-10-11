@@ -188,7 +188,7 @@ export function ExperienceEntry({
           style={styles.techStack}
           className="text-slate-900 whitespace-pre-wrap"
         >
-          <span className="font-bold mr-1">Tech Stack:</span>
+          <span className="mr-1">Tech Stack:</span>
           {exp.techStack}
         </div>
       )}
