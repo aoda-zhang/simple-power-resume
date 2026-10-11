@@ -44,12 +44,15 @@ export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
         style={s.sectionTitle}
       />
 
-      <div className="grid grid-cols-[max-content_minmax(0,1fr)] gap-x-2 gap-y-1.5">
+      <div className="flex flex-col gap-y-1.5">
         {groupedEntries.map(({ cat, skills: categorySkills }) => {
           const names = categorySkills.map((sk) => sk.name).filter(Boolean).join(", ");
           return (
-            <div key={cat} className="contents">
-              <span className="font-bold text-slate-900 whitespace-nowrap">
+            <div
+              key={cat}
+              className="grid grid-cols-[6.5rem_minmax(0,1fr)] items-start gap-x-2"
+            >
+              <span className="font-bold text-slate-900">
                 {cat}:
               </span>
               <span className="min-w-0 text-slate-900" style={s.body}>
@@ -60,7 +63,7 @@ export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
         })}
 
         {ungrouped.length > 0 && (
-          <div className="col-span-2 min-w-0 text-slate-900" style={s.body}>
+          <div className="text-slate-900" style={s.body}>
             {ungrouped.map((sk) => sk.name).filter(Boolean).join(", ")}
           </div>
         )}
