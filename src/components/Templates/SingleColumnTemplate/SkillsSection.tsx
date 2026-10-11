@@ -1,6 +1,6 @@
 /**
  * Single-column layout: skills section with optional category grouping.
- * Category labels share a fixed column so skill values align consistently.
+ * All category labels share one content-sized grid column.
  */
 import { SectionTitle } from "../shared/SectionRenderers";
 import { singleColumnStyles as s } from "../shared/templateStyles";
@@ -44,28 +44,27 @@ export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
         style={s.sectionTitle}
       />
 
-      {groupedEntries.map(({ cat, skills: categorySkills }) => {
-        const names = categorySkills.map((sk) => sk.name).filter(Boolean).join(", ");
-        return (
-          <div
-            key={cat}
-            className="mb-1.5 grid grid-cols-[5rem_minmax(0,1fr)] gap-x-1 last:mb-0"
-          >
-            <span className="font-bold text-slate-900 whitespace-nowrap">
-              {cat}:
-            </span>
-            <span className="min-w-0 text-slate-900" style={s.body}>
-              {names}
-            </span>
-          </div>
-        );
-      })}
+      <div className="grid grid-cols-[max-content_minmax(0,1fr)] gap-x-2 gap-y-1.5">
+        {groupedEntries.map(({ cat, skills: categorySkills }) => {
+          const names = categorySkills.map((sk) => sk.name).filter(Boolean).join(", ");
+          return (
+            <div key={cat} className="contents">
+              <span className="font-bold text-slate-900 whitespace-nowrap">
+                {cat}:
+              </span>
+              <span className="min-w-0 text-slate-900" style={s.body}>
+                {names}
+              </span>
+            </div>
+          );
+        })}
 
-      {ungrouped.length > 0 && (
-        <div className="text-slate-900" style={s.body}>
-          {ungrouped.map((sk) => sk.name).filter(Boolean).join(", ")}
-        </div>
-      )}
+        {ungrouped.length > 0 && (
+          <div className="col-span-2 min-w-0 text-slate-900" style={s.body}>
+            {ungrouped.map((sk) => sk.name).filter(Boolean).join(", ")}
+          </div>
+        )}
+      </div>
     </section>
   );
 }
