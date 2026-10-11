@@ -56,7 +56,12 @@ export function ExperienceSection({
               t={t}
               present={present}
               onUpdate={onUpdate}
-              styles={{ description: s.body }}
+              styles={{
+                company: s.body,
+                companyDescription: s.body,
+                techStack: s.body,
+                description: s.body,
+              }}
             />
           </div>
         </div>
