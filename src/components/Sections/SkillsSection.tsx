@@ -20,18 +20,16 @@ export function SkillsSection({ data, onChange }: Props) {
   const tEditor = translations[language].editor;
   const uncategorizedLabel = t.uncategorized || 'Other';
 
-  // Build groups from data, sorted by `order`
   const buildGroups = () => {
-    // Assign default order to skills that don't have one (based on insertion order)
     let maxOrder = -1;
-    data.forEach(sk => {
+    data.forEach((sk) => {
       if (sk.order !== undefined && sk.order > maxOrder) maxOrder = sk.order;
     });
 
     const groups: { id: string; cat: string; names: string[]; order: number }[] = [];
     const catMap: Record<string, number> = {};
 
-    data.forEach(sk => {
+    data.forEach((sk) => {
       const cat = sk.category?.trim() || uncategorizedLabel;
       if (catMap[cat] === undefined) {
         const order = sk.order ?? (maxOrder + 1 + groups.length);
@@ -41,20 +39,15 @@ export function SkillsSection({ data, onChange }: Props) {
       if (sk.name.trim()) groups[catMap[cat]].names.push(sk.name.trim());
     });
 
-    // Sort groups by order
     groups.sort((a, b) => a.order - b.order);
     return groups;
   };
 
   const groups = buildGroups();
-
-  // Drag state
   const [dragOverIdx, setDragOverIdx] = useState<number | null>(null);
   const [dragSrcIdx, setDragSrcIdx] = useState<number | null>(null);
 
-  const handleDragStart = (idx: number) => {
-    setDragSrcIdx(idx);
-  };
+  const handleDragStart = (idx: number) => setDragSrcIdx(idx);
 
   const handleDragOver = (e: React.DragEvent, idx: number) => {
     e.preventDefault();
@@ -71,21 +64,10 @@ export function SkillsSection({ data, onChange }: Props) {
 
     const srcGroup = groups[dragSrcIdx];
     const tgtGroup = groups[targetIdx];
-    const srcOrder = srcGroup.order;
-    const tgtOrder = tgtGroup.order;
-
-    // Swap order values of all skills in src/tgt groups
-    const srcCat = srcGroup.cat;
-    const tgtCat = tgtGroup.cat;
-
-    const reordered = data.map(sk => {
-      const skCatNorm = sk.category?.trim() || uncategorizedLabel;
-      if (skCatNorm === srcCat) {
-        return { ...sk, order: tgtOrder };
-      }
-      if (skCatNorm === tgtCat) {
-        return { ...sk, order: srcOrder };
-      }
+    const reordered = data.map((sk) => {
+      const category = sk.category?.trim() || uncategorizedLabel;
+      if (category === srcGroup.cat) return { ...sk, order: tgtGroup.order };
+      if (category === tgtGroup.cat) return { ...sk, order: srcGroup.order };
       return sk;
     });
 
@@ -99,57 +81,51 @@ export function SkillsSection({ data, onChange }: Props) {
     setDragOverIdx(null);
   };
 
-  // Update category name for all skills in a group
-  const updateCategory = ( _groupId: string, oldCat: string, newCat: string) => {
+  const updateCategory = (_groupId: string, oldCat: string, newCat: string) => {
     const safeNewCat = newCat.trim() || uncategorizedLabel;
     if (safeNewCat === oldCat) return;
-    onChange(data.map(sk => {
-      const skCat = sk.category?.trim() || uncategorizedLabel;
-      return skCat === oldCat ? { ...sk, category: safeNewCat } : sk;
+    onChange(data.map((sk) => {
+      const category = sk.category?.trim() || uncategorizedLabel;
+      return category === oldCat ? { ...sk, category: safeNewCat } : sk;
     }));
   };
 
-  // Update skills (comma-separated text) for a group
   const updateSkills = (groupId: string, oldCat: string, text: string) => {
     const safeOldCat = oldCat.trim() || uncategorizedLabel;
-    const names = text.split(',').map(n => n.trim()).filter(Boolean);
-    const group = groups.find(g => g.id === groupId);
-    const groupOrder = group?.order ?? 0;
-    const outside = data.filter(sk => {
-      const skCat = (sk.category?.trim() || uncategorizedLabel);
-      return skCat !== safeOldCat;
+    const names = text.split(',').map((name) => name.trim()).filter(Boolean);
+    const groupOrder = groups.find((group) => group.id === groupId)?.order ?? 0;
+    const outside = data.filter((sk) => {
+      const category = sk.category?.trim() || uncategorizedLabel;
+      return category !== safeOldCat;
     });
     const rebuilt: Skill[] = names.map((name, i) => ({
       id: `skill_${Date.now()}_${groupId}_${i}`,
       name,
-      level: 'intermediate' as const,
+      level: 'intermediate',
       category: safeOldCat === uncategorizedLabel ? '' : safeOldCat,
       order: groupOrder,
     }));
     onChange([...outside, ...rebuilt]);
   };
 
-  // Delete an entire group
   const deleteGroup = (groupId: string) => {
-    const group = groups.find(g => g.id === groupId);
+    const group = groups.find((item) => item.id === groupId);
     if (!group) return;
-    onChange(data.filter(sk => {
-      const skCat = (sk.category?.trim() || uncategorizedLabel);
-      return skCat !== group.cat;
+    onChange(data.filter((sk) => {
+      const category = sk.category?.trim() || uncategorizedLabel;
+      return category !== group.cat;
     }));
   };
 
-  // Add a new empty group
   const addGroup = () => {
-    const maxOrder = Math.max(...groups.map(g => g.order), -1);
-    const newSkill: Skill = {
+    const maxOrder = Math.max(...groups.map((group) => group.order), -1);
+    onChange([...data, {
       id: `skill_${Date.now()}`,
       name: '',
       level: 'intermediate',
       category: uncategorizedLabel,
       order: maxOrder + 1,
-    };
-    onChange([...data, newSkill]);
+    }]);
   };
 
   return (
@@ -185,33 +161,28 @@ export function SkillsSection({ data, onChange }: Props) {
                 onDragOver={(e) => handleDragOver(e, idx)}
                 onDrop={(e) => handleDrop(e, idx)}
                 onDragEnd={handleDragEnd}
-                className={`flex items-center gap-2 bg-white border rounded-lg px-2 py-1.5 select-none ${
+                className={`grid grid-cols-[1rem_10rem_minmax(0,1fr)_2rem] items-center gap-2 bg-white border rounded-lg px-2 py-1.5 select-none ${
                   isDragging ? 'opacity-40' : ''
                 } ${isOver ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200'}`}
               >
-                {/* Drag handle */}
-                <GripVertical className="w-4 h-4 text-slate-300 cursor-grab flex-shrink-0" />
-
-                {/* Category input */}
+                <GripVertical className="w-4 h-4 text-slate-300 cursor-grab" />
                 <input
                   type="text"
                   defaultValue={group.cat === uncategorizedLabel ? '' : group.cat}
                   onBlur={(e) => updateCategory(group.id, group.cat, e.target.value)}
                   placeholder={tEditor.skills || 'Category'}
-                  className="w-40 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 flex-shrink-0 font-medium text-slate-700"
+                  className="w-full min-w-0 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 font-medium text-slate-700"
                 />
-                {/* Skills comma-separated input */}
                 <input
                   type="text"
                   defaultValue={group.names.join(', ')}
                   onBlur={(e) => updateSkills(group.id, group.cat, e.target.value)}
                   placeholder="e.g. JavaScript, TypeScript, React"
-                  className="flex-1 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-slate-700"
+                  className="w-full min-w-0 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-slate-700"
                 />
-                {/* Delete button */}
                 <button
                   onClick={() => deleteGroup(group.id)}
-                  className="p-2 text-red-400 hover:text-red-600 flex-shrink-0"
+                  className="justify-self-center p-2 text-red-400 hover:text-red-600"
                   title="Delete group"
                 >
                   <Trash2 className="w-4 h-4" />
