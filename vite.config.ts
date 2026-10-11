@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: "simple-power-resume",
+  base: '/simple-power-resume/',
   build: {
     assetsDir: 'assets',
   },
