@@ -1,7 +1,6 @@
 /**
  * Single-column layout: skills section with optional category grouping.
- * - Skills WITH a category → category header (bold) + comma-separated skill names
- * - Skills WITHOUT a category → flat comma-separated list
+ * Category labels share a fixed column so skill values align consistently.
  */
 import { SectionTitle } from "../shared/SectionRenderers";
 import { singleColumnStyles as s } from "../shared/templateStyles";
@@ -15,26 +14,25 @@ interface SkillsSectionProps {
 export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
   if (skills.length === 0) return null;
 
-  const ungrouped = skills.filter(sk => !sk.category?.trim());
+  const ungrouped = skills.filter((sk) => !sk.category?.trim());
   const groupedEntries: Array<{ cat: string; skills: Skill[] }> = [];
-
   const seen = new Set<string>();
-  skills.forEach(sk => {
+
+  skills.forEach((sk) => {
     const cat = sk.category?.trim();
     if (cat && !seen.has(cat)) {
       seen.add(cat);
-groupedEntries.push({
+      groupedEntries.push({
         cat,
-        skills: skills.filter(s => s.category?.trim() === cat),
+        skills: skills.filter((item) => item.category?.trim() === cat),
       });
     }
   });
 
-// Sort by order field so drag-and-drop group reordering is reflected
   groupedEntries.sort((a, b) => {
-    const aOrd = a.skills[0]?.order ?? 999;
-    const bOrd = b.skills[0]?.order ?? 999;
-    return aOrd - bOrd;
+    const aOrder = a.skills[0]?.order ?? 999;
+    const bOrder = b.skills[0]?.order ?? 999;
+    return aOrder - bOrder;
   });
 
   return (
@@ -46,21 +44,26 @@ groupedEntries.push({
         style={s.sectionTitle}
       />
 
-      {/* Grouped skills: bold category + comma-separated names */}
-      {groupedEntries.map(({ cat, skills: catSkills }) => {
-        const names = catSkills.map(sk => sk.name).filter(Boolean).join(', ');
+      {groupedEntries.map(({ cat, skills: categorySkills }) => {
+        const names = categorySkills.map((sk) => sk.name).filter(Boolean).join(", ");
         return (
-          <div key={cat} className="mb-1.5 last:mb-0 flex gap-2">
-            <span className="font-bold text-slate-900 shrink-0">{cat}:</span>
-            <span className="text-slate-900" style={s.body}>{names}</span>
+          <div
+            key={cat}
+            className="mb-1.5 grid grid-cols-[7rem_minmax(0,1fr)] gap-x-2 last:mb-0"
+          >
+            <span className="font-bold text-slate-900 whitespace-nowrap">
+              {cat}:
+            </span>
+            <span className="min-w-0 text-slate-900" style={s.body}>
+              {names}
+            </span>
           </div>
         );
       })}
 
-      {/* Ungrouped skills */}
       {ungrouped.length > 0 && (
         <div className="text-slate-900" style={s.body}>
-          {ungrouped.map(sk => sk.name).filter(Boolean).join(', ')}
+          {ungrouped.map((sk) => sk.name).filter(Boolean).join(", ")}
         </div>
       )}
     </section>
