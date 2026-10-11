@@ -49,7 +49,7 @@ export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
         return (
           <div
             key={cat}
-            className="mb-1.5 grid grid-cols-[7rem_minmax(0,1fr)] gap-x-2 last:mb-0"
+            className="mb-1.5 grid grid-cols-[5rem_minmax(0,1fr)] gap-x-1 last:mb-0"
           >
             <span className="font-bold text-slate-900 whitespace-nowrap">
               {cat}:
