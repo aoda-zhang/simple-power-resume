@@ -23,7 +23,6 @@ export function PersonalSection({
 }: PersonalSectionProps) {
   return (
     <header className="mb-1">
-      {/* Top: Name and Title */}
       <div className="mb-1">
         {personalInfo.fullName && (
           <h1 style={s.name} className="text-slate-900">
@@ -45,10 +44,8 @@ export function PersonalSection({
         )}
       </div>
 
-      {/* Bottom: Contact info left, Avatar right */}
       <div className="flex justify-between items-center gap-6">
-        {/* Contact fields at bottom left */}
-        <div className="text-slate-900">
+        <div className="text-slate-900 min-w-0 flex-1">
           {contactFields.map((f) => (
             <div key={f} className="flex items-baseline">
               <span className="font-bold shrink-0 whitespace-nowrap pr-1">
@@ -67,12 +64,11 @@ export function PersonalSection({
           ))}
         </div>
 
-        {/* Avatar at bottom right */}
         {personalInfo.photo && (
           <div className="shrink-0">
             <Photo
               src={personalInfo.photo}
-              size={200}
+              size={220}
               className="rounded-full border-2 border-slate-200"
             />
           </div>
