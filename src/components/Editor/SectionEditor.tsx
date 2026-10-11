@@ -122,7 +122,7 @@ function SortableSectionItem({
           >
             <div className="flex items-center gap-2">
               <span>{icon}</span>
-              <span className="font-medium text-slate-700">{label}</span>
+              <span className="font-medium text-slate-900">{label}</span>
             </div>
             {isExpanded ? (
               <ChevronDown className="w-5 h-5 text-slate-400" />
@@ -301,7 +301,7 @@ export function SectionEditor() {
     <div className="h-full flex flex-col bg-slate-50">
       <div className="px-4 py-3 bg-white border-b border-slate-200 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
-          <h2 className="font-semibold text-slate-700">
+          <h2 className="font-semibold text-slate-900">
             {tEditor.personalInfo}
           </h2>
           <button
@@ -310,7 +310,7 @@ export function SectionEditor() {
                 resetSectionOrder();
               }
             }}
-            className="px-2 py-1 text-xs text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors"
+            className="px-2 py-1 text-xs text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors"
             title={tEditor.sectionName}
           >
             Reset order

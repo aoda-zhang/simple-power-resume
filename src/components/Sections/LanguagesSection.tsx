@@ -46,7 +46,7 @@ export function LanguagesSection({ data, onChange }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-slate-700">{tEditor.languages}</h3>
+        <h3 className="font-semibold text-slate-900">{tEditor.languages}</h3>
         <button onClick={addItem} className="flex items-center gap-1 px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
           <Plus className="w-4 h-4" />{tEditor.add}
         </button>

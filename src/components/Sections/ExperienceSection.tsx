@@ -67,7 +67,7 @@ export function ExperienceSection({ data, onChange }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-slate-700">{tEditor.experience}</h3>
+        <h3 className="font-semibold text-slate-900">{tEditor.experience}</h3>
         <button
           onClick={addItem}
           className="flex items-center gap-1 px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
@@ -90,7 +90,7 @@ export function ExperienceSection({ data, onChange }: Props) {
               }
             >
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-slate-700">
+                <span className="text-sm font-medium text-slate-900">
                   {item.position || item.company || tEditor.add}
                 </span>
                 <span className="text-xs text-slate-400">

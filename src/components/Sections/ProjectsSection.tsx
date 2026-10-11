@@ -53,7 +53,7 @@ export function ProjectsSection({ data, onChange }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-slate-700">{tEditor.projects}</h3>
+        <h3 className="font-semibold text-slate-900">{tEditor.projects}</h3>
         <button onClick={addItem} className="flex items-center gap-1 px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
           <Plus className="w-4 h-4" />{tEditor.add}
         </button>
@@ -64,7 +64,7 @@ export function ProjectsSection({ data, onChange }: Props) {
           <div key={item.id} className="border border-slate-200 rounded-lg overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3 bg-slate-50 cursor-pointer"
               onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}>
-              <span className="text-sm font-medium text-slate-700">{item.name || tEditor.add}</span>
+              <span className="text-sm font-medium text-slate-900">{item.name || tEditor.add}</span>
               <div className="flex items-center gap-1">
                 <button onClick={(e) => { e.stopPropagation(); moveItem(item.id, 'up'); }} disabled={index === 0} className="p-1 text-slate-400 hover:text-slate-600 disabled:opacity-30"><ChevronUp className="w-4 h-4" /></button>
                 <button onClick={(e) => { e.stopPropagation(); moveItem(item.id, 'down'); }} disabled={index === data.length - 1} className="p-1 text-slate-400 hover:text-slate-600 disabled:opacity-30"><ChevronDown className="w-4 h-4" /></button>

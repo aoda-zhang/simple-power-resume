@@ -131,7 +131,7 @@ export function SkillsSection({ data, onChange }: Props) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-slate-700">{tEditor.skills}</h3>
+        <h3 className="font-semibold text-slate-900">{tEditor.skills}</h3>
         <button
           onClick={addGroup}
           className="flex items-center gap-1 px-3 py-1.5 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
@@ -171,14 +171,14 @@ export function SkillsSection({ data, onChange }: Props) {
                   defaultValue={group.cat === uncategorizedLabel ? '' : group.cat}
                   onBlur={(e) => updateCategory(group.id, group.cat, e.target.value)}
                   placeholder={tEditor.skills || 'Category'}
-                  className="w-full min-w-0 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 font-medium text-slate-700"
+                  className="w-full min-w-0 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 font-medium text-slate-900"
                 />
                 <input
                   type="text"
                   defaultValue={group.names.join(', ')}
                   onBlur={(e) => updateSkills(group.id, group.cat, e.target.value)}
                   placeholder="e.g. JavaScript, TypeScript, React"
-                  className="w-full min-w-0 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-slate-700"
+                  className="w-full min-w-0 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-slate-900"
                 />
                 <button
                   onClick={() => deleteGroup(group.id)}

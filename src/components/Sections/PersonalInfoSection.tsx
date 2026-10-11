@@ -238,14 +238,14 @@ export function PersonalInfoSection({ data, isEditing = true }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-slate-700">{tEditor.personalInfo}</h3>
+        <h3 className="font-semibold text-slate-900">{tEditor.personalInfo}</h3>
         <button
           onClick={() => {
             if (window.confirm("重置字段顺序？")) {
               useResumeStore.getState().resetPersonalInfoFieldOrder();
             }
           }}
-          className="px-2 py-1 text-xs text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors"
+          className="px-2 py-1 text-xs text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors"
         >
           重置顺序
         </button>

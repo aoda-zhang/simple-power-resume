@@ -103,7 +103,7 @@ export function ResumeWorkspace() {
             </button>
             <button
               onClick={handleExportImage}
-              className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-slate-300 text-slate-900 text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors"
             >
               <FileImage className="w-4 h-4" />
               {t.header.exportImage}
@@ -156,7 +156,7 @@ export function ResumeWorkspace() {
                         setShowLangDropdown(false);
                       }}
                       className={`w-full px-4 py-2 text-sm text-left hover:bg-slate-100 ${
-                        language === lang.code ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700'
+                        language === lang.code ? 'bg-indigo-50 text-indigo-600' : 'text-slate-900'
                       }`}
                     >
                       {lang.name}

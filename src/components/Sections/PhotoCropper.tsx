@@ -166,7 +166,7 @@ export function PhotoCropper({ file, onConfirm, onCancel }: PhotoCropperProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white rounded-2xl shadow-2xl p-6 flex flex-col items-center gap-5 max-w-sm w-full">
-        <h3 className="text-lg font-semibold text-slate-700">调整头像</h3>
+        <h3 className="text-lg font-semibold text-slate-900">调整头像</h3>
 
         {/* Crop viewport */}
         <div

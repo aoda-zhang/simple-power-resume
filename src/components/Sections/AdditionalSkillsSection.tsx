@@ -67,7 +67,7 @@ export function AdditionalSkillsSection({
         >
           <div className="flex items-center gap-2">
             <span className="text-lg">🌐</span>
-            <span className="font-medium text-slate-700">{tEditor.languages}</span>
+            <span className="font-medium text-slate-900">{tEditor.languages}</span>
           </div>
           {openSection === 'languages' ? (
             <ChevronDown className="w-5 h-5 text-slate-500" />
@@ -125,7 +125,7 @@ export function AdditionalSkillsSection({
         >
           <div className="flex items-center gap-2">
             <span className="text-lg">🎯</span>
-            <span className="font-medium text-slate-700">{tEditor.interests}</span>
+            <span className="font-medium text-slate-900">{tEditor.interests}</span>
           </div>
           {openSection === 'interests' ? (
             <ChevronDown className="w-5 h-5 text-slate-500" />

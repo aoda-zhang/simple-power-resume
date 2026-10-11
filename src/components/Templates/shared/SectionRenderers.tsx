@@ -140,7 +140,7 @@ export function ExperienceEntry({
         </h3>
       </div>
 
-      <div style={styles.company} className="text-slate-700">
+      <div style={styles.company} className="text-slate-900">
         <EditableText
           value={exp.company}
           onChange={(v) => onUpdate(exp.id, { company: v })}
@@ -186,7 +186,7 @@ export function ExperienceEntry({
       {exp.techStack && (
         <div
           style={styles.techStack}
-          className="text-slate-700 whitespace-pre-wrap"
+          className="text-slate-900 whitespace-pre-wrap"
         >
           <span className="font-bold mr-1">Tech Stack:</span>
           {exp.techStack}
@@ -438,7 +438,7 @@ export function LanguageEntry({
       {!isMT && (
         <>
           <span>&nbsp;(</span>
-          <span className="font-medium text-slate-700">
+          <span className="font-medium text-slate-900">
             <EditableText
               value={level}
               onChange={(v) => onUpdate(lang.id, { level: v })}
