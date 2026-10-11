@@ -1,7 +1,12 @@
 /**
  * Single-column layout: skills section with optional category grouping.
- * All category labels share one content-sized grid column.
+ *
+ * Every category row lives in ONE grid so they share a single label track.
+ * A per-row grid (or a hard-coded `6.5rem`) breaks as soon as a category name
+ * is longer than the fixed width: the label wraps to two lines and the values
+ * stop lining up. `fit-content()` sizes the track to the widest label instead.
  */
+import { Fragment } from "react";
 import { SectionTitle } from "../shared/SectionRenderers";
 import { singleColumnStyles as s } from "../shared/templateStyles";
 import type { Skill } from "../../../types/resume";
@@ -36,42 +41,48 @@ export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
   });
 
   return (
-    <section className="mb-4">
+    <section className="mb-5">
       <SectionTitle
         label={tEditor.skills}
         sectionType="skills"
-        className={`${s.label} !mb-2`}
+        className={s.label}
         style={s.sectionTitle}
       />
 
-      <div className="flex flex-col gap-y-1.5">
+      <div
+        className="grid items-start gap-y-1"
+        style={{
+          gridTemplateColumns: s.labelColumns,
+          columnGap: s.entryGap,
+        }}
+      >
         {groupedEntries.map(({ cat, skills: categorySkills }) => {
-          const names = categorySkills.map((sk) => sk.name).filter(Boolean).join(", ");
+          const names = categorySkills
+            .map((sk) => sk.name)
+            .filter(Boolean)
+            .join(", ");
           return (
-            <div
-              key={cat}
-              className="grid items-start"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "6.5rem minmax(0, 1fr)",
-                columnGap: "0.5rem",
-                alignItems: "start",
-              }}
-            >
-              <span className="font-bold text-slate-900">
-                {cat}:
-              </span>
+            <Fragment key={cat}>
+              <span className="font-semibold text-slate-900">{cat}:</span>
               <span className="min-w-0 text-slate-900" style={s.body}>
                 {names}
               </span>
-            </div>
+            </Fragment>
           );
         })}
 
+        {/* Skills without a category span the full width so they start at the
+            same left edge as the category labels. */}
         {ungrouped.length > 0 && (
-          <div className="text-slate-900" style={s.body}>
-            {ungrouped.map((sk) => sk.name).filter(Boolean).join(", ")}
-          </div>
+          <>
+            <span />
+            <span className="min-w-0 text-slate-900" style={s.body}>
+              {ungrouped
+                .map((sk) => sk.name)
+                .filter(Boolean)
+                .join(", ")}
+            </span>
+          </>
         )}
       </div>
     </section>

@@ -3,6 +3,7 @@
  * Clean single-column layout. Assembles section components.
  */
 import { useTemplateData } from "../shared/useTemplateData";
+import { SectionTitle } from "../shared/SectionRenderers";
 import { singleColumnStyles as s } from "../shared/templateStyles";
 import { PersonalSection } from "./PersonalSection";
 import { SummarySection } from "./SummarySection";
@@ -128,41 +129,49 @@ export function SingleColumnTemplate() {
             );
           case "additionalSkills":
             return (
-              <section key={section.id} className="mb-4">
-                <h2
-                  className="text-xs font-bold tracking-wider text-slate-900 mb-2 border-b border-slate-900 pb-1"
+              <section key={section.id} className="mb-5">
+                <SectionTitle
+                  label={tEditor.additionalSkills}
+                  sectionType="additionalSkills"
+                  className={s.label}
                   style={s.sectionTitle}
-                >
-                  {tEditor.additionalSkills}
-                </h2>
+                />
                 {languages.length > 0 && (
-                  <div className="mb-3">
-                    <h3 className="font-bold text-slate-900 mb-1">{tEditor.sectionLanguages}</h3>
-                    <div className="flex items-start gap-2">
-                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-slate-900 shrink-0" />
-                      <LanguagesSection
-                        languages={languages as Language[]}
-                        onUpdate={
-                          updateLanguage as (
-                            id: string,
-                            data: Partial<Language>,
-                          ) => void
-                        }
-                      />
-                    </div>
+                  <div className="mb-2.5">
+                    <h3
+                      className="text-slate-700 mb-1"
+                      style={s.subTitle}
+                    >
+                      {tEditor.sectionLanguages}
+                    </h3>
+                    <LanguagesSection
+                      languages={languages as Language[]}
+                      onUpdate={
+                        updateLanguage as (
+                          id: string,
+                          data: Partial<Language>,
+                        ) => void
+                      }
+                    />
                   </div>
                 )}
                 {interests && (
                   <div>
-                    <h3 className="font-bold text-slate-900 mb-1">{tEditor.sectionInterests}</h3>
-                    <div className="text-slate-900" style={s.body}>
-                      {interests.split("\n").filter(Boolean).map((line, i) => (
-                        <div key={i} className="flex items-start gap-2 mb-1">
-                          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-slate-900 shrink-0" />
-                          <span>{line.trim()}</span>
-                        </div>
-                      ))}
-                    </div>
+                    <h3
+                      className="text-slate-700 mb-1"
+                      style={s.subTitle}
+                    >
+                      {tEditor.sectionInterests}
+                    </h3>
+                    <ul className="list-disc space-y-1 pl-[1.15em] marker:text-slate-400 text-slate-900">
+                      {interests
+                        .split("\n")
+                        .map((line) => line.trim())
+                        .filter(Boolean)
+                        .map((line, i) => (
+                          <li key={i}>{line}</li>
+                        ))}
+                    </ul>
                   </div>
                 )}
               </section>

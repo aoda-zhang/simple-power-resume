@@ -1,6 +1,8 @@
 /**
  * Single-column layout: education section.
- * Uses a two-column grid with fixed-width time column (left) + content (right).
+ *
+ * Uses the same two-column grid as Experience so the dates line up across
+ * both sections (and across the page break in print).
  */
 import { SectionTitle } from "../shared/SectionRenderers";
 import { singleColumnStyles as s } from "../shared/templateStyles";
@@ -23,54 +25,57 @@ export function EducationSection({
   if (education.length === 0) return null;
 
   return (
-    <section className="mb-4">
+    <section className="mb-5">
       <SectionTitle
         label={tEditor.education}
         sectionType="education"
         className={s.label}
         style={s.sectionTitle}
       />
-      {education.map((edu) => (
-        <div
-          key={edu.id}
-          className="grid mb-2"
-          style={{ gridTemplateColumns: "170px 1fr", alignItems: "stretch" }}
-        >
-          {/* Left: time (fixed width) */}
-          <div
-            className="text-slate-900 pr-4 mr-4 h-full flex flex-col"
-            style={{ fontSize: s.body.fontSize, alignSelf: "start" }}
-          >
-            <div className="whitespace-nowrap">
-              {edu.startDate} – {edu.current ? present : edu.endDate}
-            </div>
-          </div>
-
-          {/* Right: field + school */}
-          <div className="min-w-0">
-            <div className="flex items-baseline gap-4">
-              <span
-                className="text-slate-900"
-                style={{ fontSize: s.body.fontSize, alignSelf: "start" }}
-              >
-                {edu.field || t.major || "Field of Study"}
-              </span>
-              <span className="text-slate-900 shrink-0">
-                {edu.degree ? `, ${edu.degree}` : ""}
-              </span>
-            </div>
+      <div className="flex flex-col gap-y-3">
+        {education.map((edu) => {
+          const date = [edu.startDate, edu.current ? present : edu.endDate]
+            .filter(Boolean)
+            .join(" – ");
+          const field = edu.field || t.major || "Field of Study";
+          return (
             <div
-              className="text-slate-900 mt-0.5"
-              style={{ fontSize: s.body.fontSize, alignSelf: "start" }}
+              key={edu.id}
+              data-entry
+              className="grid items-start"
+              style={{
+                gridTemplateColumns: s.entryColumns,
+                columnGap: s.entryGap,
+              }}
             >
-              {edu.school || t.school || "School"}
+              {/* Left: time (fixed width, aligns across all entries) */}
+              <div
+                data-entry-date
+                className="text-slate-600"
+                style={{ fontSize: s.body.fontSize }}
+              >
+                <div className="whitespace-nowrap">{date}</div>
+              </div>
+
+              {/* Right: field + degree, then school, then location */}
+              <div className="min-w-0">
+                <div className="text-slate-900">
+                  {field}
+                  {edu.degree && <span>, {edu.degree}</span>}
+                </div>
+                <div className="text-slate-900 font-semibold mt-0.5">
+                  {edu.school || t.school || "School"}
+                </div>
+                {edu.address && (
+                  <div className="text-slate-500 mt-0.5" style={s.meta}>
+                    {edu.address}
+                  </div>
+                )}
+              </div>
             </div>
-            {edu.address && (
-              <div className="text-slate-900 mt-0.5">{edu.address}</div>
-            )}
-          </div>
-        </div>
-      ))}
+          );
+        })}
+      </div>
     </section>
   );
 }

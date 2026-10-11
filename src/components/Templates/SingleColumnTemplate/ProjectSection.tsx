@@ -21,7 +21,7 @@ export function ProjectSection({
   if (projects.length === 0) return null;
 
   return (
-    <section className="mb-4">
+    <section className="mb-5">
       <SectionTitle
         label={tEditor.projects}
         sectionType="projects"
@@ -34,7 +34,7 @@ export function ProjectSection({
           proj={proj}
           t={t}
           onUpdate={onUpdate}
-          styles={{ description: s.body }}
+          styles={{ name: s.body, description: s.body, tech: s.body }}
         />
       ))}
     </section>

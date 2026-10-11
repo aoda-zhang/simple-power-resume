@@ -1,5 +1,9 @@
 /**
  * Single-column layout: experience section.
+ *
+ * Layout is a fixed-width date column + content column. The column width and
+ * gap live in templateStyles / index.css so the @media print rules can rebuild
+ * the exact same geometry (a mismatch shifts the exported PDF).
  */
 import { ExperienceEntry } from "../shared/SectionRenderers";
 import { SectionTitle } from "../shared/SectionRenderers";
@@ -24,48 +28,57 @@ export function ExperienceSection({
   if (experience.length === 0) return null;
 
   return (
-    <section className="mb-4">
+    <section className="mb-5">
       <SectionTitle
         label={tEditor.experience}
         sectionType="experience"
         className={s.label}
         style={s.sectionTitle}
       />
-      {experience.map((exp) => (
-        <div
-          key={exp.id}
-          data-exp-entry
-          className="grid mb-4"
-          style={{ gridTemplateColumns: "170px 1fr", alignItems: "stretch" }}
-        >
-          {/* Left: time (fixed width) */}
-          <div
-            data-exp-date
-            className="text-slate-900 pr-4 mr-4 h-full flex flex-col"
-            style={{ fontSize: s.body.fontSize, alignSelf: "start" }}
-          >
-            <div className="whitespace-nowrap">
-              {exp.startDate} – {exp.endDate || present}
-            </div>
-          </div>
-
-          {/* Right: content */}
-          <div className="min-w-0">
-            <ExperienceEntry
-              exp={exp}
-              t={t}
-              present={present}
-              onUpdate={onUpdate}
-              styles={{
-                company: s.body,
-                companyDescription: s.body,
-                techStack: s.body,
-                description: s.body,
+      <div className="flex flex-col gap-y-3.5">
+        {experience.map((exp) => {
+          const date = [exp.startDate, exp.endDate || present]
+            .filter(Boolean)
+            .join(" – ");
+          return (
+            <div
+              key={exp.id}
+              data-entry
+              className="grid items-start"
+              style={{
+                gridTemplateColumns: s.entryColumns,
+                columnGap: s.entryGap,
               }}
-            />
-          </div>
-        </div>
-      ))}
+            >
+              {/* Left: time (fixed width, aligns across all entries) */}
+              <div
+                data-entry-date
+                className="text-slate-600"
+                style={{ fontSize: s.body.fontSize }}
+              >
+                <div className="whitespace-nowrap">{date}</div>
+              </div>
+
+              {/* Right: content */}
+              <div className="min-w-0">
+                <ExperienceEntry
+                  exp={exp}
+                  t={t}
+                  present={present}
+                  onUpdate={onUpdate}
+                  styles={{
+                    position: s.body,
+                    company: s.body,
+                    companyDescription: s.body,
+                    techStack: s.body,
+                    description: s.body,
+                  }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </section>
   );
 }

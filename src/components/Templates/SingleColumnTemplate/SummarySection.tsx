@@ -19,14 +19,14 @@ export function SummarySection({
   onUpdate,
 }: SummarySectionProps) {
   return (
-    <section className="mb-4">
+    <section className="mb-5">
       <SectionTitle
         label={tEditor.summary}
         sectionType="summary"
         className={s.label}
         style={s.sectionTitle}
       />
-      <p className="leading-relaxed text-slate-900 wrap-break-word" style={s.body}>
+      <p className="text-slate-900 wrap-break-word" style={s.body}>
         <EditableText
           value={value || ""}
           onChange={onUpdate}
