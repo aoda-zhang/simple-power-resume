@@ -64,7 +64,7 @@ export function SkillsSection({ skills, tEditor }: SkillsSectionProps) {
           return (
             <Fragment key={cat}>
               <span className="font-bold text-slate-900">{cat}:</span>
-              <span className="min-w-0 text-slate-900" style={s.body}>
+              <span className="min-w-0 text-slate-900 mt-0.5" style={s.body}>
                 {names}
               </span>
             </Fragment>

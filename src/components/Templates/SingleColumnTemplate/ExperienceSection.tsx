@@ -79,7 +79,7 @@ export function ExperienceSection({
             className="text-slate-900 pr-4 mr-4 h-full flex flex-col"
             style={{ fontSize: s.body.fontSize, alignSelf: "start" }}
           >
-            <div className="whitespace-nowrap">{dateText(exp, present)}</div>
+            <div className="whitespace-nowrap mt-1">{dateText(exp, present)}</div>
           </div>
 
           {/* Right: content */}
